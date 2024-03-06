@@ -1,13 +1,11 @@
-# Elysia with Bun runtime
+# BunStack
 
-## Getting Started
-To get started with this template, simply paste this command into your terminal:
-```bash
-bun create elysia ./elysia-example
-```
+BunStack is a fullstack starter kit for building web applications with [Bun](https://bun.sh) and [ElysiaJS](https://elysiajs.com)
 
 ## Development
+
 To start the development server run:
+
 ```bash
 bun run dev
 ```
