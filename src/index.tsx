@@ -1,9 +1,7 @@
 import { renderToReadableStream } from "react-dom/server";
 import { buildStyles } from "./core/buildStyles";
 import fs from "fs/promises";
-import { Home } from "./pages/Home";
 import { App } from "./App";
-import { About } from "./pages/About";
 import { routes } from "./routes";
 import { buildRoutes } from "./core/buildRoutes";
 
