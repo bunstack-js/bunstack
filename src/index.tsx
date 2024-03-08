@@ -1,36 +1,21 @@
 import { renderToReadableStream } from "react-dom/server";
-import { buildStyles } from "./core/buildStyles";
+import { buildStyles } from "./styles/buildStyles";
 import fs from "fs/promises";
 import { App } from "./App";
-import { routes } from "./routes";
-import { buildRoutes } from "./core/buildRoutes";
+import { buildRoutes } from "./routes/buildRoutes";
+import { apiRoutes, webRoutes } from "./routes";
 
 // clear dist folder
 await fs.rm("./dist", { recursive: true, force: true });
 await buildRoutes();
 await buildStyles();
 
-const apiRoutes = [
-  {
-    path: "/api",
-    handler: async () => {
-      return new Response("Hello from api");
-    },
-  },
-  {
-    path: "/api/user/:id",
-    handler: async (request: Request, params: { id: string }) => {
-      return new Response(`Hello user with id ${params.id}`);
-    },
-  },
-];
-
 const server = Bun.serve({
   port: 3000,
   async fetch(request) {
     const url = new URL(request.url);
     const pathname = url.pathname;
-    const route = routes.find((route) => route.path === pathname);
+    const route = webRoutes.find((route) => route.path === pathname);
     if (route) {
       const formmated = route?.component.name
         .replace(/([A-Z])/g, "-$1")

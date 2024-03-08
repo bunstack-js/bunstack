@@ -1,7 +1,7 @@
-import { routes } from "../routes";
 import fs from "fs/promises";
+import { webRoutes } from "./web";
 export const buildRoutes = async () => {
-  for (const route of routes) {
+  for (const route of webRoutes) {
     const formmated = route?.component.name
       .replace(/([A-Z])/g, "-$1")
       .toLowerCase()
@@ -19,7 +19,7 @@ export const buildRoutes = async () => {
     // change component name -> HomePage -> home-page, AboutPage -> about-page
 
     await Bun.build({
-      entrypoints: routes.map((route) => `./src/generated/${formmated}.tsx`),
+      entrypoints: webRoutes.map((route) => `./src/generated/${formmated}.tsx`),
       target: "browser",
       minify: {
         identifiers: true,
