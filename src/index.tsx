@@ -34,11 +34,17 @@ const server = Bun.serve({
     const pathname = url.pathname;
     const route = routes.find((route) => route.path === pathname);
     if (route) {
+      const formmated = route?.component.name
+        .replace(/([A-Z])/g, "-$1")
+        .toLowerCase()
+        .slice(1);
+      console.log(formmated);
       return new Response(
         await renderToReadableStream(
           <App>
             <route.component />
-          </App>
+          </App>,
+          { bootstrapScripts: [`./js/${formmated}.js`] }
         ),
         {
           headers: { "Content-Type": "text/html" },
@@ -53,25 +59,6 @@ const server = Bun.serve({
       });
     }
 
-    if (pathname === "/client.js" && request.method === "GET") {
-      // get url from request
-      const referer = request.headers.get("Referer");
-      const url = new URL(referer!);
-      const path = url.pathname;
-      const route = routes.find((route) => route.path === path);
-      if (!route) {
-        return new Response("Not found", { status: 404 });
-      }
-      const formmated = route?.component.name
-        .replace(/([A-Z])/g, "-$1")
-        .toLowerCase()
-        .slice(1);
-      const client = await fs.readFile(`./dist/pages/${formmated}.js`, "utf-8");
-      return new Response(client, {
-        headers: { "Content-Type": "text/javascript" },
-      });
-    }
-
     if (pathname.startsWith("/api/user/")) {
       const id = pathname.split("/").pop();
       const match = apiRoutes.find((route) => {
@@ -83,6 +70,16 @@ const server = Bun.serve({
       }
 
       return new Response("Not found", { status: 404 });
+    }
+
+    if (pathname.startsWith("/js/")) {
+      const file = await fs.readFile(
+        `./dist/pages/${pathname.replace("/js/", "")}`,
+        "utf-8"
+      );
+      return new Response(file, {
+        headers: { "Content-Type": "application/javascript" },
+      });
     }
 
     return new Response("Not found", { status: 404 });
