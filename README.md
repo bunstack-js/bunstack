@@ -6,13 +6,19 @@ A simple but powerful stack for building fullstack web applications with [Bun](h
 
 - [x] **Server-side rendering** with [Bun](https://bun.sh) and [React](https://reactjs.org)
 
-- [ ] **API server** with [Bun](https://bun.sh)
+- [x] **API server** with [Bun](https://bun.sh)
 
 - [ ] **Database** with [MongoDB](https://www.mongodb.com) and [Mongoose](https://mongoosejs.com)
 
 - [ ] **Authentication** with [Passport](http://www.passportjs.org)
 
-- [ ] **Frontend** with [React](https://reactjs.org) and [Tailwind CSS](https://tailwindcss.com)
+- [x] **Frontend** with [React](https://reactjs.org) and [Tailwind CSS](https://tailwindcss.com)
+
+- [ ] **Role-based access control** with [CASL](https://casl.js.org)
+
+- [ ] **Internationalization** with [i18next](https://www.i18next.com)
+
+## Getting Started
 
 To install dependencies:
 
