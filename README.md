@@ -1,13 +1,15 @@
-# BunStack
+# bunstack
 
-BunStack is a fullstack starter kit for building web applications with [Bun](https://bun.sh) and [ElysiaJS](https://elysiajs.com)
-
-## Development
-
-To start the development server run:
+To install dependencies:
 
 ```bash
-bun run dev
+bun install
 ```
 
-Open http://localhost:3000/ with your browser to see the result.
+To run:
+
+```bash
+bun run src/index.tsx
+```
+
+This project was created using `bun init` in bun v1.0.29. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
