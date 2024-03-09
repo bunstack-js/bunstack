@@ -2,7 +2,7 @@
   "name": "bunstack",
   "version": "0.0.0",
   "scripts": {
-    "dev": "bun --watch src/index.tsx",
+    "dev": "bun install && bun --watch src/index.tsx",
     "build": "bun build src/index.tsx",
     "start": "NODE_ENV=production bun src/index.tsx",
     "test": "bun test"

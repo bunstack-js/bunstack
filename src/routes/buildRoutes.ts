@@ -2,6 +2,7 @@ import fs from "fs/promises";
 import { webRoutes } from "./web";
 export const buildRoutes = async () => {
   for (const route of webRoutes) {
+    // change component name -> HomePage -> home-page, AboutPage -> about-page
     const formmated = route?.component.name
       .replace(/([A-Z])/g, "-$1")
       .toLowerCase()
@@ -16,16 +17,10 @@ export const buildRoutes = async () => {
     await fs.mkdir("./src/generated", { recursive: true });
     await fs.writeFile(`./src/generated/${formmated}.tsx`, client);
 
-    // change component name -> HomePage -> home-page, AboutPage -> about-page
-
     await Bun.build({
       entrypoints: webRoutes.map((route) => `./src/generated/${formmated}.tsx`),
       target: "browser",
-      minify: {
-        identifiers: true,
-        syntax: true,
-        whitespace: true,
-      },
+      minify: true,
       outdir: "./dist/pages",
     });
   }
