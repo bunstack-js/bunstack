@@ -69,4 +69,4 @@ const server = Bun.serve({
   },
 });
 
-console.log(`Listening on ${server.url}`);
+console.info(`🚀 BunStack live on ${server.url}`);
