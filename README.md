@@ -1,6 +1,6 @@
 # bunstack
 
-A simple but powerful stack for building fullstack web applications with [Bun](https://bun.sh).
+A simple but powerful stack for building fullstack web applications with [Bun](https://bun.sh) and [ElysiaJS](https://elysiajs.com/)
 
 ## Features
 

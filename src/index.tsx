@@ -57,9 +57,15 @@ new Elysia()
   .get("/js/:page", async (req) => {
     const page = req.params.page;
     console.log(page);
+    const week = 60 * 60 * 24 * 7;
     return new Response(Bun.file(`./dist/pages/${req.params.page}.js`), {
       headers: {
         "Content-Type": "application/javascript",
+        // 1week
+        "Cache-Control":
+          process.env.NODE_ENV === "production"
+            ? `public, max-age=${week}, immutable`
+            : "no-cache",
       },
     });
   })

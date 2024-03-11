@@ -7,7 +7,7 @@ export const App = (props: AppProps) => (
       <title>Hello, world!</title>
       <link rel="stylesheet" href="/styles.css" />
     </head>
-    <body className="bg-black text-white">
+    <body className="dark bg-background text-foreground">
       <div id="app">{props.children}</div>
     </body>
   </html>
