@@ -1,5 +1,5 @@
 import fs from "fs/promises";
-import { webRoutes } from "./web";
+import { webRoutes } from "./web.routes";
 export const buildRoutes = async () => {
   for (const route of webRoutes) {
     // change component name -> HomePage -> home-page, AboutPage -> about-page

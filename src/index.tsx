@@ -4,69 +4,72 @@ import fs from "fs/promises";
 import { App } from "./App";
 import { buildRoutes } from "./routes/buildRoutes";
 import { apiRoutes, webRoutes } from "./routes";
+import type { Server } from "bun";
 
 // clear dist folder
 await fs.rm("./dist", { recursive: true, force: true });
 await buildRoutes();
 await buildStyles();
 
-const server = Bun.serve({
-  port: 3000,
-  async fetch(request) {
-    const url = new URL(request.url);
-    const pathname = url.pathname;
-    const route = webRoutes.find((route) => route.path === pathname);
-    if (route) {
-      const formmated = route?.component.name
-        .replace(/([A-Z])/g, "-$1")
-        .toLowerCase()
-        .slice(1);
-      console.log(formmated);
-      return new Response(
-        await renderToReadableStream(
-          <App>
-            <route.component />
-          </App>,
-          { bootstrapScripts: [`./js/${formmated}.js`] }
-        ),
+import { Elysia, t } from "elysia";
+import { Home } from "./pages/Home";
+
+new Elysia()
+  .get("/", async (req) => {
+    return new Response(
+      await renderToReadableStream(
+        <App>
+          <Home />
+        </App>,
         {
-          headers: { "Content-Type": "text/html" },
+          bootstrapScripts: ["js/home"],
         }
-      );
-    }
-
-    if (pathname === "/styles.css") {
-      const styles = await fs.readFile("./dist/styles.css", "utf-8");
-      return new Response(styles, {
-        headers: { "Content-Type": "text/css" },
-      });
-    }
-
-    if (pathname.startsWith("/api/user/")) {
-      const id = pathname.split("/").pop();
-      const match = apiRoutes.find((route) => {
-        const routePath = route.path.replace(/\/:id/, "");
-        return routePath === pathname.replace(/\/\d+/, "");
-      });
-      if (match) {
-        return match.handler(request, { id: id! });
+      ),
+      {
+        headers: { "Content-Type": "text/html" },
       }
+    );
+  })
+  .get("/about", async (req) => {
+    return new Response(
+      await renderToReadableStream(
+        <App>
+          <Home />
+        </App>,
+        {
+          bootstrapScripts: ["js/about"],
+        }
+      ),
+      {
+        headers: { "Content-Type": "text/html" },
+      }
+    );
+  })
 
-      return new Response("Not found", { status: 404 });
-    }
+  .get("/styles.css", async (req) => {
+    return new Response(Bun.file("./dist/styles.css"), {
+      headers: {
+        "Content-Type": "text/css",
+      },
+    });
+  })
 
-    if (pathname.startsWith("/js/")) {
-      const file = await fs.readFile(
-        `./dist/pages/${pathname.replace("/js/", "")}`,
-        "utf-8"
-      );
-      return new Response(file, {
-        headers: { "Content-Type": "application/javascript" },
-      });
-    }
-
-    return new Response("Not found", { status: 404 });
-  },
-});
-
-console.info(`🚀 BunStack live on ${server.url}`);
+  .get("/js/:page", async (req) => {
+    const page = req.params.page;
+    console.log(page);
+    return new Response(Bun.file(`./dist/pages/${req.params.page}.js`), {
+      headers: {
+        "Content-Type": "application/javascript",
+      },
+    });
+  })
+  .onStart(async () => {
+    console.info(
+      `🚀 BunStack live on ${
+        process.env.NODE_ENV === "production"
+          ? "https://bunstack.com"
+          : "http://localhost:3000"
+      }`
+    );
+  })
+  .listen(3000);

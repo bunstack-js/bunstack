@@ -1,4 +1,4 @@
-import { ClickMe } from "../components/ClickMe";
+import { ClickMe } from "../components/click-me.button";
 
 export function About() {
   return (

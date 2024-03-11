@@ -1,2 +1,2 @@
-export { apiRoutes } from "./api";
-export { webRoutes } from "./web";
+export { apiRoutes } from "./api.routes";
+export { webRoutes } from "./web.routes";
