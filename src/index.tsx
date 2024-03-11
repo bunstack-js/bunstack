@@ -73,12 +73,10 @@ new Elysia()
       },
     });
   })
-  .onStart(async () => {
+  .onStart(async ({ path }) => {
     console.info(
       `🚀 BunStack live on ${
-        process.env.NODE_ENV === "production"
-          ? "https://bunstack.com"
-          : "http://localhost:3000"
+        process.env.NODE_ENV === "production" ? "https://bunstack.com" : path
       }`
     );
   })
