@@ -50,13 +50,17 @@ new Elysia()
     return new Response(Bun.file("./dist/styles.css"), {
       headers: {
         "Content-Type": "text/css",
+        // 1week
+        "Cache-Control":
+          process.env.NODE_ENV === "production"
+            ? "public, max-age=604800, immutable"
+            : "no-cache",
       },
     });
   })
 
   .get("/js/:page", async (req) => {
     const page = req.params.page;
-    console.log(page);
     const week = 60 * 60 * 24 * 7;
     return new Response(Bun.file(`./dist/pages/${req.params.page}.js`), {
       headers: {
