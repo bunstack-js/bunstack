@@ -1,6 +1,6 @@
 import { ClickMe } from "../components/click-me.button";
 
-export function About() {
+export default function About() {
   return (
     <main>
       <h1>About</h1>

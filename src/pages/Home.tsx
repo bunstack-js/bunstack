@@ -1,6 +1,6 @@
 import { ClickMe } from "../components/click-me.button";
 
-export const Home = () => {
+export default function Home() {
   return (
     <main>
       <h1>Home</h1>
@@ -8,4 +8,4 @@ export const Home = () => {
       <a href="/about">About</a>
     </main>
   );
-};
+}

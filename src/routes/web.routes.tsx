@@ -1,5 +1,6 @@
-import { Home } from "../pages/Home";
-import { About } from "../pages/About";
+import About from "../pages/About";
+import Home from "../pages/Home";
+import Login from "../pages/Login";
 
 export const webRoutes = [
   {
@@ -9,5 +10,9 @@ export const webRoutes = [
   {
     path: "/about",
     component: About,
+  },
+  {
+    path: "/login",
+    component: Login,
   },
 ];
