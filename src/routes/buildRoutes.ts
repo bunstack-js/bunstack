@@ -21,9 +21,7 @@ export const buildRoutes = async () => {
     await fs.writeFile(`./src/generated/${formmated}.tsx`, client);
 
     const result = await Bun.build({
-      entrypoints: webRoutes.map(
-        (route) => `./src/generated/${route?.component.name}.tsx`
-      ),
+      entrypoints: [`./src/generated/${route?.component.name}.tsx`],
       target: "browser",
       minify: true,
       outdir: "./dist/pages",
