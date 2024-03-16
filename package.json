@@ -20,12 +20,14 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "tailwind-merge": "^2.2.1",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "uglify-js": "^3.17.4"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.10",
     "@types/react": "^18.2.64",
     "@types/react-dom": "^18.2.21",
+    "@types/uglify-js": "^3.17.5",
     "bun-types": "latest",
     "tailwindcss": "^3.4.1"
   },

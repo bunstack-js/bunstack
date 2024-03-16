@@ -14,7 +14,13 @@ export const indexController: Controller = async (req) => {
       }
     ),
     {
-      headers: { "Content-Type": "text/html" },
+      headers: {
+        "Content-Type": "text/html",
+        "Cache-Control":
+          process.env.NODE_ENV === "production"
+            ? `public, max-age=${60 * 60 * 24 * 7}`
+            : "no-cache",
+      },
     }
   );
 };
