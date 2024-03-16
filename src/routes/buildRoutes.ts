@@ -2,6 +2,8 @@ import fs from "fs/promises";
 import { webRoutes } from "./web.routes";
 export const buildRoutes = async () => {
   // create dist/pages folder
+  await fs.rmdir("./dist/pages", { recursive: true });
+
   await fs.mkdir("./dist/pages", { recursive: true });
 
   for (const route of webRoutes) {
@@ -25,7 +27,6 @@ export const buildRoutes = async () => {
       target: "browser",
       minify: true,
       outdir: "./dist/pages",
-      external: ["react"],
     });
 
     if (!result.success) {

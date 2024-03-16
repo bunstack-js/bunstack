@@ -17,25 +17,33 @@ try {
   new Elysia()
 
     .get("/", indexController)
+    // get ./chunk#hash.js
     .get("/about", aboutController)
     .get("/login", loginController)
     .get("/styles.css", stylesController)
 
-    .get("/js/:page", async (req) => {
-      const page = req.params.page;
-      console.log(page);
-      const week = 60 * 60 * 24 * 7;
-      return new Response(Bun.file(`./dist/pages/${req.params.page}.js`), {
-        headers: {
-          "Content-Type": "application/javascript",
-          // 1week
-          "Cache-Control":
-            process.env.NODE_ENV === "production"
-              ? `public, max-age=${week}, immutable`
-              : "no-cache",
-        },
-      });
-    })
+    .get(
+      "/js/:page",
+      async ({
+        params: { page },
+      }: {
+        params: {
+          page: string;
+        };
+      }) => {
+        const week = 60 * 60 * 24 * 7;
+        return new Response(Bun.file(`./dist/pages/${page}.js`), {
+          headers: {
+            "Content-Type": "application/javascript",
+            // 1week
+            "Cache-Control":
+              process.env.NODE_ENV === "production"
+                ? `public, max-age=${week}, immutable`
+                : "no-cache",
+          },
+        });
+      }
+    )
     .onStart(async ({ server }) => {
       // clear dist folder
 
