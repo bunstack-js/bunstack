@@ -1,3 +1,5 @@
+import type { Context } from "elysia";
+
 export interface Controller {
-  (req: Request): Promise<Response>;
+  (context: Context): Promise<Response> | Response;
 }

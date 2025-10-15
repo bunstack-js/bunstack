@@ -1,6 +1,6 @@
 import type { Controller } from "./Controller";
 
-export const stylesController: Controller = async (req) => {
+export const stylesController: Controller = async () => {
   return new Response(Bun.file("./dist/styles.css"), {
     headers: {
       "Content-Type": "text/css",
