@@ -1,8 +1,14 @@
+/// <reference types="bun-types" />
+
 import fs from "fs/promises";
 import { webRoutes } from "./web.routes";
 export const buildRoutes = async () => {
   // create dist/pages folder
-  await fs.rmdir("./dist/pages", { recursive: true });
+  try {
+    await fs.rm("./dist/pages", { recursive: true, force: true });
+  } catch (error) {
+    // Ignore error if directory doesn't exist
+  }
 
   await fs.mkdir("./dist/pages", { recursive: true });
 
@@ -12,16 +18,22 @@ export const buildRoutes = async () => {
       .replace(/([A-Z])/g, "-$1")
       .toLowerCase()
       .slice(1);
-    // create client tsx
-    const client = `import { createRoot } from "react-dom/client";
-  import ${route?.component.name} from "../pages/${route?.component.name}";
-  const root = createRoot(document.getElementById("app")!);
-  root.render(<${route?.component.name} />);`.replace(/\n/g, "");
+    // create client tsx with hydrateRoot for SSR
+    const client = `/// <reference lib="dom" />
+/// <reference lib="dom.iterable" />
+
+import { hydrateRoot } from "react-dom/client";
+import ${route?.component.name} from "../pages/${route?.component.name}";
+
+const appElement = document.getElementById("app");
+if (appElement) {
+  hydrateRoot(appElement, <${route?.component.name} />);
+}`;
 
     await fs.writeFile(`./src/generated/${formmated}.tsx`, client);
 
     const result = await Bun.build({
-      entrypoints: [`./src/generated/${route?.component.name}.tsx`],
+      entrypoints: [`./src/generated/${formmated}.tsx`],
       target: "browser",
       minify: true,
       outdir: "./dist/pages",

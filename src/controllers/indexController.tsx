@@ -1,4 +1,4 @@
-import { renderToReadableStream } from "react-dom/server";
+import { renderToReadableStream } from "react-dom/server.browser";
 import { App } from "../App";
 import type { Controller } from "./Controller";
 import Home from "@/pages/Home";
@@ -10,7 +10,7 @@ export const indexController: Controller = async (req) => {
         <Home />
       </App>,
       {
-        bootstrapScripts: ["js/home"],
+        bootstrapScripts: ["/js/home"],
       }
     ),
     {
